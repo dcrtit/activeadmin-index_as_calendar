@@ -11,6 +11,10 @@
         center: '',
         right: 'prev,today,next month,basicWeek,basicDay'
       },
+      dateClick: function(info) {
+        alert('Date: ' + info.dateStr);
+      },
+      plugins: [ 'interaction' ],
       eventRender: function( event, element, view ){
         element.qtip({
           content: event.tooltip,
