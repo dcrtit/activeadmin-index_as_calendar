@@ -21,7 +21,7 @@ module IndexAsCalendar
       # Defines controller for event_mapping model items to events
       controller do
         def event_mapping( items, options )
-          events = items.where(city_id: options[:city_id]).map do |item|
+          events = items.map do |item|
             if !options[:block].blank?
               instance_exec(item, &options[:block])
             else
@@ -53,6 +53,7 @@ module IndexAsCalendar
         collection_action :index_as_events, :method => :get do
           items = options[:model] || end_of_association_chain
           items = items.send(params[:scope]) if params[:scope].present?
+          items = items.where(city_id: fullCalendarOptions[:city_id])
           items = items.includes(options[:includes]) unless options[:includes].blank?
           items = items.where(options[:start_date] => params[:start].to_date...params[:end].to_date).ransack(params[:q]).result
 
