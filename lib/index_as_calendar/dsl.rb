@@ -12,6 +12,7 @@ module IndexAsCalendar
         :start_date => :created_at, # Field to be used as start date for events
         :end_date => nil, # Field to be used as end date for events
         :block => block, # Block with the model<->event field mappings
+        :city_id => 1,
         :fullCalendarOptions => nil, # fullCalendar options to be sent upon initialization
         :default => false # Set this index view as default
       }
@@ -20,7 +21,7 @@ module IndexAsCalendar
       # Defines controller for event_mapping model items to events
       controller do
         def event_mapping( items, options )
-          events = items.map do |item|
+          events = items.where(city_id: options[:city_id]).map do |item|
             if !options[:block].blank?
               instance_exec(item, &options[:block])
             else
