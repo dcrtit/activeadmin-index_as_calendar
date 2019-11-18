@@ -53,7 +53,7 @@ module IndexAsCalendar
         collection_action :index_as_events, :method => :get do
           items = options[:model] || end_of_association_chain
           items = items.send(params[:scope]) if params[:scope].present?
-          items = items.where(city_id: fullCalendarOptions[:city_id])
+          items = items.where(city_id: options[:fullCalendarOptions][:city_id])
           items = items.includes(options[:includes]) unless options[:includes].blank?
           items = items.where(options[:start_date] => params[:start].to_date...params[:end].to_date).ransack(params[:q]).result
 
